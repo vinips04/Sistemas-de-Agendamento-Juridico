@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Plataforma de Casos</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background-color: #f4f4f4; }
+        h1 { color: #333; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        th { background-color: #004a91; color: white; }
+        tr:nth-child(even) { background-color: #f9f9f9; }
+        .status-ABERTO { color: green; font-weight: bold; }
+        .status-EM_ANDAMENTO { color: orange; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<h1>Painel de Casos da Advocacia</h1>
+
+<div th:if="${casos.isEmpty()}">
+    <p>Nenhum caso encontrado no sistema.</p>
+</div>
+
+<table th:if="${!casos.isEmpty()}">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Título</th>
+        <th>Cliente</th>
+        <th>Advogado Responsável</th>
+        <th>Status</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="caso : ${casos}">
+        <td th:text="${caso.id}">1</td>
+        <td th:text="${caso.titulo}">Título do Caso</td>
+        <td th:text="${caso.nomeCliente}">Nome Cliente</td>
+        <td th:text="${caso.nomeAdvogado != null ? caso.nomeAdvogado : 'N/A'}">Dra. Camila</td>
+        <td>
+                    <span th:text="${caso.status.getDescricao()}"
+                          th:class="'status-' + ${caso.status.name()}">
+                        Aberto
+                    </span>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>
