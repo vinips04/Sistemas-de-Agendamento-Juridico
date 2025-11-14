@@ -9,18 +9,19 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Repository
-public interface AppointmentRepository extends JpaRepository<Appointment, Long> {
+public interface AppointmentRepository extends JpaRepository<Appointment, UUID> {
 
-    List<Appointment> findByLawyerId(Long lawyerId);
+    List<Appointment> findByLawyerId(UUID lawyerId);
 
     @Query("SELECT a FROM Appointment a WHERE a.lawyer.id = :lawyerId AND " +
            "((a.dateTime BETWEEN :start AND :end) OR " +
            "(FUNCTION('ADDTIME', a.dateTime, a.durationMinutes * 60) BETWEEN :start AND :end) OR " +
            "(:start BETWEEN a.dateTime AND FUNCTION('ADDTIME', a.dateTime, a.durationMinutes * 60)))")
     Optional<Appointment> findConflictingAppointment(
-            @Param("lawyerId") Long lawyerId,
+            @Param("lawyerId") UUID lawyerId,
             @Param("start") LocalDateTime start,
             @Param("end") LocalDateTime end);
 }

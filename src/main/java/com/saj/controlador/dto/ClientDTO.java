@@ -1,12 +1,16 @@
 package com.saj.controlador.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
+import java.util.UUID;
+
 @Data
 public class ClientDTO {
-    private Long id;
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    private UUID id;
 
     @NotBlank(message = "Name is mandatory")
     private String name;

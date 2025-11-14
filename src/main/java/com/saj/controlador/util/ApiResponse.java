@@ -1,12 +1,18 @@
 package com.saj.controlador.util;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
-@AllArgsConstructor
+@Getter
+@Setter
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ApiResponse<T> {
-    private boolean success;
     private String message;
     private T data;
+
+    public ApiResponse(String message, T data) {
+        this.message = message;
+        this.data = data;
+    }
 }

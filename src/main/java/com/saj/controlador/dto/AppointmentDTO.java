@@ -1,15 +1,18 @@
 package com.saj.controlador.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Data
 public class AppointmentDTO {
-    private Long id;
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    private UUID id;
 
     @NotNull(message = "Date and time are mandatory")
     @Future(message = "Appointment must be in the future")
@@ -19,12 +22,12 @@ public class AppointmentDTO {
     private int durationMinutes;
 
     @NotNull(message = "Lawyer ID is mandatory")
-    private Long lawyerId;
+    private UUID lawyerId;
 
     @NotNull(message = "Client ID is mandatory")
-    private Long clientId;
+    private UUID clientId;
     
-    private Long processId;
+    private UUID processId;
     
     private String description;
 }
