@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -30,4 +32,7 @@ public class Process {
 
     @Column(nullable = false)
     private String status;
+
+    @OneToMany(mappedBy = "process") // Sem cascade ou orphanRemoval para não deletar Appointments
+    private List<Appointment> appointments = new ArrayList<>();
 }
