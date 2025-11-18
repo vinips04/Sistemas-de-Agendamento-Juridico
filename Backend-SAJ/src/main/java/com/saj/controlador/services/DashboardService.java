@@ -41,6 +41,8 @@ public class DashboardService {
 
     public List<AppointmentWithDetails> getUpcomingAppointments(UUID lawyerId, int limit) {
         Pageable pageable = PageRequest.of(0, limit);
-        return appointmentRepository.findUpcomingWithDetailsByLawyer(lawyerId, LocalDateTime.now(), pageable);
+        // Mostrar agendamentos de hoje (desde 00:00) + futuros
+        LocalDateTime startOfToday = LocalDate.now().atStartOfDay();
+        return appointmentRepository.findUpcomingWithDetailsByLawyer(lawyerId, startOfToday, pageable);
     }
 }

@@ -1,5 +1,6 @@
 package com.saj.controlador.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,7 +15,9 @@ import java.util.UUID;
 @AllArgsConstructor
 public class AppointmentWithDetails {
     private UUID id;
-    private LocalDateTime dateTime; // ISO 8601 format
+
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    private LocalDateTime dateTime;
     private Integer durationMinutes;
     private UUID lawyerId;
     private UUID clientId;

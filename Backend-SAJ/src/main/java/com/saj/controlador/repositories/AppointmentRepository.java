@@ -57,12 +57,12 @@ public interface AppointmentRepository extends JpaRepository<Appointment, UUID> 
         INNER JOIN Client c ON a.client.id = c.id
         LEFT JOIN Process p ON a.process.id = p.id
         WHERE u.id = :lawyerId
-          AND a.dateTime >= :now
+          AND a.dateTime >= :oneDayAgo
         ORDER BY a.dateTime ASC
     """)
     List<AppointmentWithDetails> findUpcomingWithDetailsByLawyer(
         @Param("lawyerId") UUID lawyerId,
-        @Param("now") LocalDateTime now,
+        @Param("oneDayAgo") LocalDateTime oneDayAgo,
         Pageable pageable
     );
 }

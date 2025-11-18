@@ -22,30 +22,30 @@ public class AppointmentController {
     @GetMapping("/lawyer/{lawyerId}")
     public ResponseEntity<ApiResponse<List<AppointmentDTO>>> getAppointmentsByLawyer(@PathVariable UUID lawyerId) {
         List<AppointmentDTO> appointments = appointmentService.getAppointmentsByLawyer(lawyerId);
-        return ResponseEntity.ok(new ApiResponse<>("Appointments for lawyer retrieved successfully", appointments));
+        return ResponseEntity.ok(new ApiResponse<>("Agendamentos do advogado recuperados com sucesso", appointments));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<AppointmentDTO>> getAppointmentById(@PathVariable UUID id) {
         AppointmentDTO appointment = appointmentService.getAppointmentById(id);
-        return ResponseEntity.ok(new ApiResponse<>("Appointment retrieved successfully", appointment));
+        return ResponseEntity.ok(new ApiResponse<>("Agendamento recuperado com sucesso", appointment));
     }
 
     @PostMapping
     public ResponseEntity<ApiResponse<AppointmentDTO>> createAppointment(@Valid @RequestBody AppointmentDTO appointmentDTO) {
         AppointmentDTO createdAppointment = appointmentService.createAppointment(appointmentDTO);
-        return new ResponseEntity<>(new ApiResponse<>("Appointment created successfully", createdAppointment), HttpStatus.CREATED);
+        return new ResponseEntity<>(new ApiResponse<>("Agendamento criado com sucesso", createdAppointment), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<ApiResponse<AppointmentDTO>> updateAppointment(@PathVariable UUID id, @Valid @RequestBody AppointmentDTO appointmentDTO) {
         AppointmentDTO updatedAppointment = appointmentService.updateAppointment(id, appointmentDTO);
-        return ResponseEntity.ok(new ApiResponse<>("Appointment updated successfully", updatedAppointment));
+        return ResponseEntity.ok(new ApiResponse<>("Agendamento atualizado com sucesso", updatedAppointment));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<ApiResponse<Void>> deleteAppointment(@PathVariable UUID id) {
         appointmentService.deleteAppointment(id);
-        return ResponseEntity.ok(new ApiResponse<>("Appointment deleted successfully", null));
+        return ResponseEntity.ok(new ApiResponse<>("Agendamento excluído com sucesso", null));
     }
 }

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -29,7 +30,7 @@ public class AppointmentService {
 
     public List<AppointmentDTO> getAppointmentsByLawyer(UUID lawyerId) {
         if (!userRepository.existsById(lawyerId)) {
-            throw new ResourceNotFoundException("Lawyer not found with id: " + lawyerId);
+            throw new ResourceNotFoundException("Advogado não encontrado com id: " + lawyerId);
         }
         return appointmentRepository.findByLawyerId(lawyerId).stream()
                 .map(appointmentMapper::toDTO).collect(Collectors.toList());
@@ -37,7 +38,7 @@ public class AppointmentService {
 
     public AppointmentDTO getAppointmentById(UUID id) {
         Appointment appointment = appointmentRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Appointment not found with id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Agendamento não encontrado com id: " + id));
         return appointmentMapper.toDTO(appointment);
     }
 
@@ -50,7 +51,7 @@ public class AppointmentService {
 
     public AppointmentDTO updateAppointment(UUID id, AppointmentDTO appointmentDTO) {
         Appointment existingAppointment = appointmentRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Appointment not found with id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Agendamento não encontrado com id: " + id));
 
         validateAppointmentConflict(appointmentDTO.getLawyerId(), appointmentDTO.getDateTime(), appointmentDTO.getDurationMinutes(), id);
 
@@ -62,7 +63,7 @@ public class AppointmentService {
 
     public void deleteAppointment(UUID id) {
         if (!appointmentRepository.existsById(id)) {
-            throw new ResourceNotFoundException("Appointment not found with id: " + id);
+            throw new ResourceNotFoundException("Agendamento não encontrado com id: " + id);
         }
         appointmentRepository.deleteById(id);
     }
@@ -72,7 +73,9 @@ public class AppointmentService {
         appointmentRepository.findConflictingAppointment(lawyerId, start, end)
                 .ifPresent(existing -> {
                     if (appointmentId == null || !existing.getId().equals(appointmentId)) {
-                        throw new ConflictException("Appointment conflict for lawyer. Existing appointment at: " + existing.getDateTime());
+                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy 'às' HH:mm");
+                        String formattedDate = existing.getDateTime().format(formatter);
+                        throw new ConflictException("Conflito de agendamento: o advogado já possui um agendamento em " + formattedDate);
                     }
                 });
     }

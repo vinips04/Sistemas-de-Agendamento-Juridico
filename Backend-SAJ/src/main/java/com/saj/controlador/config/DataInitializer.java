@@ -20,7 +20,6 @@ public class DataInitializer {
                 admin.setPassword(passwordEncoder.encode("admin123"));
                 admin.setFullName("Administrador");
                 userRepository.save(admin);
-                System.out.println("Usuário 'admin' criado com senha 'admin123'");
             }
 
             // Criar segundo advogado se não existir
@@ -30,7 +29,6 @@ public class DataInitializer {
                 advogado.setPassword(passwordEncoder.encode("advogado123"));
                 advogado.setFullName("Advogado Somenzari");
                 userRepository.save(advogado);
-                System.out.println("Usuário 'advogado' criado com senha 'advogado123'");
             }
         };
     }
